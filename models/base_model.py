@@ -1,32 +1,46 @@
-#!/usr/bin/python3
-
+#!/usr/bin/pyhon3
+"""
+Parent class that will inherit
+"""
 import uuid
-import datetime
+from datetime import datetime
+
 
 class BaseModel:
-    def __init__(self):
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.datetime.now()
-        self.updated_at =  datetime.datetime.now()
+    """Defines all common attributes/methods
+    """
 
+    def __init__(self, *args, **kwargs):
+        """initializes all attributes
+        """
+        self.name = "Hello"
+        self.my_number = "45"
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
 
     def __str__(self):
-        """ the string representation of the str object"""
-        return "[{}] ({}) {}".format(self.__class__.__name__,
-                                    self.id,
-                                    self.__dict__)
+        """returns class name, id and attribute dictionary
+        """
+        class_name = "[" + self.__class__.__name__ + "]"
+        return class_name + " (" + self.id + ") " + str(self.__dict__)
+
     def save(self):
+        """updates last update time
         """
-        updating the public instance attribute updated_at with the current 
-        datetime
-        """
-        self.updated_at = datetime.datetime.now()
+        self.updated_at = datetime.now()
 
     def to_dict(self):
-        result_dict = self.__dict__
-        result_dict["__class__"] = self.__class__.__name__
-        result_dict["created_at"] = strftime(%Y-%m-%dT%H:%M:%S.%f)
-        result_dict["updated_at"] = strftime(%Y-%m-%dT%H:%M:%S.%f)
+        """creates a new dictionary, adding a key and returning
+        datemtimes converted to strings
+        """
+        new_dict = {}
 
-        return result_dict
+        for key, values in self.__dict__.items():
+            if key == "created_at" or key == "updated_at":
+                new_dict[key] = values.strftime("%Y-%m-%dT%H:%M:%S.%f")
+            else:
+                new_dict[key] = values
+        new_dict['__class__'] = self.__class__.__name__
 
+        return new_dict

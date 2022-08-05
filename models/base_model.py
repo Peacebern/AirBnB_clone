@@ -9,6 +9,7 @@ from datetime import datetime
 class BaseModel:
     """Defines all common attributes/methods
     """
+
     def __init__(self, *args, **kwargs):
         """initializes all attributes
         """
@@ -43,4 +44,3 @@ class BaseModel:
         new_dict['__class__'] = self.__class__.__name__
 
         return new_dict
-
